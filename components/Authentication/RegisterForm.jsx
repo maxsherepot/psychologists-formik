@@ -1,36 +1,24 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from "formik";
-
+import TextError from './TextError';
+import * as Yup from "yup";
 
 
 const initialValues = {
 	name: "",
 	lastName: "",
-	email: ""
+	email: "",
+	// comments: "",
+	// address: ""
 };
 
-const validate = values => {
-	let errors = {};
-
-	if (!values.name) {
-		errors.name = "Required"
-	}
-	else if (values.name.length < 4) {
-		errors.name = "Name is too short"
-	}
-
-	if (!values.lastName) {
-		errors.lastName = "Required"
-	};
-
-	if (!values.email) {
-		errors.email = "Required"
-	} else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-		errors.email = 'Invalid email address';
-	};
-
-	return errors;
-};
+const validationSchema = Yup.object({
+	name: Yup.string().required("Required"),
+	lastName: Yup.string().required("Required"),
+	email: Yup.string()
+		.email("Invalid email address")
+		.required("Required")
+});
 
 const onSubmit = values => {
 };
@@ -39,12 +27,10 @@ const onSubmit = values => {
 
 const RegisterForm = () => {
 
-	//	console.log(formik.touched)
-
 	return (
 		<Formik
 			initialValues={initialValues}
-			validate={validate}
+			validationSchema={validationSchema}
 			onSubmit={onSubmit}>
 
 			<Form className="form-group mt-5">
@@ -57,7 +43,7 @@ const RegisterForm = () => {
 						placeholder="Enter your name"
 						className="form-control"
 						type="text" />
-					<ErrorMessage name="name" />
+					<ErrorMessage name="name" component={TextError} />
 				</div>
 
 				<div className="mt-3">
@@ -68,7 +54,7 @@ const RegisterForm = () => {
 						placeholder="Enter your last name"
 						className="form-control"
 						type="text" />
-					<ErrorMessage name="lastName" />
+					<ErrorMessage name="lastName" component={TextError} />
 				</div>
 
 				<div className="mt-3">
@@ -79,8 +65,40 @@ const RegisterForm = () => {
 						placeholder="Enter email"
 						className="form-control"
 						type="email" />
-					<ErrorMessage name="email" />
+					<ErrorMessage name="email" component={TextError} />
 				</div>
+
+
+				{/* <div className="mt-3">
+					<label
+						className="mb-1"
+						htmlFor="comments">Comments</label>
+					<Field as="textarea"
+						name="comments"
+						placeholder="Enter comments"
+						className="form-control" />
+					<ErrorMessage name="comments" component={TextError} />
+				</div> */}
+
+				{/* <div className="mt-3">
+					<label
+						className="mb-1"
+						htmlFor="address">Address</label>
+					<Field name="address" >
+						{props => {
+							const { field, form, meta } = props;
+							return (
+								<div>
+									<input className="form-control"
+										type="text"
+										placeholder="Enter address" {...field} />
+									{meta.touched && meta.error ? <div>{meta.error}</div> : null}
+								</div>
+							)
+						}}
+					</Field>
+					<ErrorMessage name="comments" />
+				</div> */}
 
 				<button className="btn btn-primary mt-4 btn-md">
 					Register
