@@ -1,5 +1,6 @@
 import React from 'react';
-import { useFormik } from "formik";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+
 
 
 const initialValues = {
@@ -38,62 +39,55 @@ const onSubmit = values => {
 
 const RegisterForm = () => {
 
-	const formik = useFormik({
-		initialValues,
-		validate,
-		onSubmit
-	});
-
-	console.log(formik.touched)
-
+	//	console.log(formik.touched)
 
 	return (
-		<form
-			onSubmit={formik.handleSubmit}
-			className="form-group mt-5">
+		<Formik
+			initialValues={initialValues}
+			validate={validate}
+			onSubmit={onSubmit}>
 
-			<div className="mt-3">
-				<label
-					className="mb-1"
-					htmlFor="name">First name </label>
-				<input name="name"
-					{...formik.getFieldProps('name')}
-					placeholder="Enter your name"
-					className="form-control"
-					type="text" />
-				{formik.touched.name && formik.errors.name ? <div className="text-danger">{formik.errors.name}</div> : null}
-			</div>
+			<Form className="form-group mt-5">
 
-			<div className="mt-3">
-				<label
-					className="mb-1"
-					htmlFor="lastName">Last name</label>
-				<input name="lastName"
-					{...formik.getFieldProps('lastName')}
-					placeholder="Enter your last name"
-					className="form-control"
-					type="text" />
-				{formik.touched.lastName && formik.errors.lastName ? <div className="text-danger">{formik.errors.lastName}</div> : null}
-			</div>
+				<div className="mt-3">
+					<label
+						className="mb-1"
+						htmlFor="name">First name </label>
+					<Field name="name"
+						placeholder="Enter your name"
+						className="form-control"
+						type="text" />
+					<ErrorMessage name="name" />
+				</div>
 
-			<div className="mt-3">
-				<label
-					className="mb-1"
-					htmlFor="email">Email</label>
-				<input name="email"
-					{...formik.getFieldProps('email')}
-					placeholder="Enter email"
-					className="form-control"
-					type="email" />
-				{formik.touched.email && formik.errors.email ? <div className="text-danger">{formik.errors.email}</div> : null}
-			</div>
+				<div className="mt-3">
+					<label
+						className="mb-1"
+						htmlFor="lastName">Last name</label>
+					<Field name="lastName"
+						placeholder="Enter your last name"
+						className="form-control"
+						type="text" />
+					<ErrorMessage name="lastName" />
+				</div>
 
+				<div className="mt-3">
+					<label
+						className="mb-1"
+						htmlFor="email">Email</label>
+					<Field name="email"
+						placeholder="Enter email"
+						className="form-control"
+						type="email" />
+					<ErrorMessage name="email" />
+				</div>
 
-			<button className="btn btn-primary mt-4 btn-md">
-				Register
-			</button>
+				<button className="btn btn-primary mt-4 btn-md">
+					Register
+				</button>
 
-		</form>
+			</Form>
+		</Formik>
 	);
 };
 
